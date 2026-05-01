@@ -1,29 +1,13 @@
 /**
- * Given an integer x, return true if x is a palindrome, and false otherwise.
+ * Problem: Check if a given number is palindrome
  *
+ * Method 1: By conversion to string
+ * Time Complexity: O(n)
+ * Space Complexity: O(n)
  *
- *
- * Example 1:
- * Input: x = 121
- * Output: true
- * Explanation: 121 reads as 121 from left to right and from right to left.
- *
- * Example 2:
- * Input: x = -121
- * Output: false
- * Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
- *
- * Example 3:
- * Input: x = 10
- * Output: false
- * Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
- *
- *
- * Constraints:
- *
- * -2^31 <= x <= 2^31 - 1
- *
- * Follow up: Could you solve it without converting the integer to a string?
+ * Method 2: Without conversion to string
+ * Time Complexity: O(n)
+ * Space Complexity: O(1)
  */
 
 package com.dsa.arrays.coding_problems;
@@ -39,8 +23,10 @@ public class PalindromeNumber {
     }
 
     public static boolean solutionByConversionToString(int num) {
+        // Convert the number to a string
         String numStr = String.valueOf(num);
-
+        // use 2 pointers. One moves from the front and the other from the back comparing the characters/digits
+        // at each complementary position
         for (int i=0,j=numStr.length()-1; i<j ; i++, j--) {
             if (numStr.charAt(i)!=numStr.charAt(j)) {
                 return false;
@@ -56,8 +42,13 @@ public class PalindromeNumber {
 
         int temp = num;
         int reverse = 0;
+        // the loop reverses the number
         while (temp > 0) {
+            // reverse*10 moves the digits in the existing number one step to the left.
+            // Eg: if 3 is present in reverse, it becomes 30. 3 moves left to the ten's place
+            // Remainder gets the last digit. Eg: in 123, 3 is the last digit
             reverse =  reverse*10 + temp%10;
+            // Quotient gets the digits other than the last digit
             temp = temp/10;
         }
 

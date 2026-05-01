@@ -1,59 +1,18 @@
 /**
- * Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique
- * element appears only once. The relative order of the elements should be kept the same.
+ * Problem: Remove Duplicates from Sorted Array
+ * Source: https://leetcode.com/problems/remove-duplicates-from-sorted-array/
  *
- * Consider the number of unique elements in nums to be k. After removing duplicates, return the number of unique
- * elements k.
- *
- * The first k elements of nums should contain the unique numbers in sorted order. The remaining elements beyond index
- * k - 1 can be ignored.
- *
- * Custom Judge:
- *
- * The judge will test your solution with the following code:
- *
- * int[] nums = [...]; // Input array
- * int[] expectedNums = [...]; // The expected answer with correct length
- *
- * int k = removeDuplicates(nums); // Calls your implementation
- *
- * assert k == expectedNums.length;
- * for (int i = 0; i < k; i++) {
- *     assert nums[i] == expectedNums[i];
- * }
- * If all assertions pass, then your solution will be accepted.
- *
- *
- *
- * Example 1:
- *
- * Input: nums = [1,1,2]
- * Output: 2, nums = [1,2,_]
- * Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
- * It does not matter what you leave beyond the returned k (hence they are underscores).
- *
- * Example 2:
- *
- * Input: nums = [0,0,1,1,1,2,2,3,3,4]
- * Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
- * Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
- * It does not matter what you leave beyond the returned k (hence they are underscores).
- *
- *
- * Constraints:
- *
- * 1 <= nums.length <= 3 * 10^4
- * -100 <= nums[i] <= 100
- * nums is sorted in non-decreasing order.
+ * Time Complexity: O(n)
+ * Space Complexity: O(1)
  */
 package com.dsa.arrays.coding_problems;
 
 public class RemoveDuplicatesSortedArray {
     public static void main(String[] args) {
-        int[] arr = {0,0,1,1,1,2,2,3,3,4};
-        int[] expectedArr = {0,1,2,3,4};
+        int[] arr = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
+        int[] expectedArr = {0, 1, 2, 3, 4};
         int noOfUniqueElements = removeDuplicates(arr);
-        if (expectedArr.length==noOfUniqueElements) {
+        if (expectedArr.length == noOfUniqueElements) {
             for (int i = 0; i < expectedArr.length; i++) {
                 if (arr[i] != expectedArr[i]) {
                     System.out.println("The actual array does not match the expected array. The array is sorted incorrectly");
@@ -67,13 +26,14 @@ public class RemoveDuplicatesSortedArray {
     }
 
     public static int removeDuplicates(int[] array) {
-        // A pointer to move through the elements
         // A pointer to track the index where the next unique element has to be written
-
         int writeIndex = 1;
-        for (int i = 1; i <array.length; i++) {
-            if (array[writeIndex -1]!=array[i]) {
-                array[writeIndex]=array[i];
+        // A pointer to move through the elements
+        // the write index stops at a duplicate element and moves only when there is a swap
+        for (int i = 1; i < array.length; i++) {
+            // the element in the index before the write index is the last non-duplicate element known
+            if (array[writeIndex - 1] != array[i]) {
+                array[writeIndex] = array[i];
                 writeIndex++;
             }
         }
