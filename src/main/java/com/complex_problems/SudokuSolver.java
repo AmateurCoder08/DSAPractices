@@ -41,10 +41,10 @@ public class SudokuSolver {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 int num = sudoku[i][j];
-                if (num!=0) {
+                if (num != 0) {
                     numInRow[i][num] = true;
                     numInColumn[j][num] = true;
-                    int gridNum = ((i / 3) * 3) + (j/3);
+                    int gridNum = ((i / 3) * 3) + (j / 3);
                     numInGrid[gridNum][num] = true;
                 }
             }
@@ -55,25 +55,25 @@ public class SudokuSolver {
     }
 
     public static boolean backtrack(int[][] sudokuGrid, int row, int col,
-                                      boolean[][] numInRow, boolean[][] numInColumn,
-                                      boolean[][] numInGrid) {
+                                    boolean[][] numInRow, boolean[][] numInColumn,
+                                    boolean[][] numInGrid) {
         if (row == 9) return true;
 
-        int nextR = (col==8) ? row + 1: row;
-        int nextC = (col==8) ? 0: col+1;
+        int nextR = (col == 8) ? row + 1 : row;
+        int nextC = (col == 8) ? 0 : col + 1;
 
-        if (sudokuGrid[row][col]!=0) {
+        if (sudokuGrid[row][col] != 0) {
             return backtrack(sudokuGrid, nextR, nextC, numInRow, numInColumn, numInGrid);
         }
 
-        int box = (row/3 * 3) + (col/3);
+        int box = (row / 3 * 3) + (col / 3);
 
-        for (int num=1; num<9; num++) {
-            if (!numInRow[row][num] && !numInColumn[row][num] && !numInGrid[box][num]) {
+        for (int num = 1; num <= 9; num++) {
+            if (!numInRow[row][num] && !numInColumn[col][num] && !numInGrid[box][num]) {
                 sudokuGrid[row][col] = num;
                 numInRow[row][num] = true;
-                numInRow[col][num] = true;
-                numInRow[box][num] = true;
+                numInColumn[col][num] = true;
+                numInGrid[box][num] = true;
 
                 if (backtrack(sudokuGrid, nextR, nextC, numInRow, numInColumn, numInGrid)) {
                     return true;
@@ -81,8 +81,8 @@ public class SudokuSolver {
 
                 sudokuGrid[row][col] = 0;
                 numInRow[row][num] = false;
-                numInRow[col][num] = false;
-                numInRow[box][num] = false;
+                numInColumn[col][num] = false;
+                numInGrid[box][num] = false;
             }
         }
         return false;
