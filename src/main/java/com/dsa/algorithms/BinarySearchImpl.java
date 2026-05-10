@@ -2,7 +2,9 @@
  * An implementation of binary search algorithm.
  * The position/index of the number being searched is returned. If the number is not found -1 is returned.
  * The binary search algorithm expects a SORTED ARRAY to be its input
+ *
  * Time complexity: O(log n)
+ * Space Complexity: O(1)
  */
 package com.dsa.algorithms;
 
