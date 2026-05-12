@@ -1,9 +1,5 @@
 package com.complex_problems;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class SudokuSolverEvolutionOne {
 
     public static void main(String[] args) {
@@ -19,9 +15,7 @@ public class SudokuSolverEvolutionOne {
                 {4, 6, 0, 0, 0, 3, 0, 2, 0}
         };
 
-        LocalDateTime startTime = LocalDateTime.now();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("mm:ss.SSS");
-        System.out.println("Start time: " + startTime.format(dtf));
+        long startTime = System.nanoTime();
 
         if (solveSudoku(sudokuGrid)) {
             printSudoku(sudokuGrid);
@@ -29,9 +23,8 @@ public class SudokuSolverEvolutionOne {
             System.out.println("There is no solution!");
         }
 
-        LocalDateTime endTime = LocalDateTime.now();
-        System.out.println("End time: " + endTime.format(dtf));
-        System.out.println("Executed in " + Duration.between(startTime, endTime).toNanos() + " nanoseconds");
+        long endTime = System.nanoTime();
+        System.out.println("Executed in " + (endTime - startTime) + " nanoseconds");
 
 
     }
