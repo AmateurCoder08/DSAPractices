@@ -1,5 +1,8 @@
 /**
  * Link: https://leetcode.com/problems/plus-one/
+ *
+ * Time Complexity: O(n)
+ * Space Complexity: O(1). Because a new array gets assigned only in a particular case which is a rare case
  */
 package com.dsa.arrays.coding_problems;
 
