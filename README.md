@@ -4,3 +4,4 @@ RemoveDuplicatesSortedArray - https://leetcode.com/problems/remove-duplicates-fr
 RemoveElements - https://leetcode.com/problems/remove-element/ <br>
 TwoSum - https://leetcode.com/problems/two-sum/ <br>
 SearchInsertPosition - https://leetcode.com/problems/search-insert-position/
+PlusOne - https://leetcode.com/problems/plus-one/
