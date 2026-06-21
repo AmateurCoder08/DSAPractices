@@ -1,20 +1,19 @@
-package com.complex_problems;
+package com.complex_problems.sudoku;
 
-public class SudokuSolverEvolutionTwo {
+public class SudokuSolverEvolutionOne {
 
     public static void main(String[] args) {
         int[][] sudokuGrid = new int[][]{
-                {0, 1, 0, 4, 0, 0, 0, 6, 5},
-                {0, 0, 8, 0, 0, 0, 2, 0, 9},
-                {0, 0, 0, 0, 9, 7, 0, 0, 0},
-                {0, 2, 4, 0, 0, 0, 6, 0, 0},
-                {0, 3, 0, 7, 0, 9, 0, 1, 0},
-                {0, 0, 1, 0, 0, 0, 3, 5, 0},
-                {0, 0, 0, 5, 4, 0, 0, 0, 0},
-                {1, 0, 5, 0, 0, 0, 8, 0, 0},
-                {4, 6, 0, 0, 0, 3, 0, 2, 0}
+                {0, 3, 0, 8, 7, 0, 0, 0, 0},
+                {0, 0, 7, 0, 1, 0, 0, 8, 0},
+                {0, 0, 8, 0, 0, 9, 6, 0, 4},
+                {0, 0, 0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 4, 7, 8, 1, 3, 0, 0},
+                {0, 7, 0, 0, 0, 0, 0, 0, 0},
+                {2, 0, 6, 4, 0, 0, 8, 0, 0},
+                {0, 5, 0, 0, 6, 0, 4, 0, 0},
+                {0, 0, 0, 0, 9, 8, 0, 2, 0}
         };
-
 
         long startTime = System.nanoTime();
 
@@ -25,7 +24,7 @@ public class SudokuSolverEvolutionTwo {
         }
 
         long endTime = System.nanoTime();
-        System.out.println("Executed in " + (endTime - startTime) + " nanoseconds");
+        System.out.println("Executed in " + ((endTime - startTime)/Math.pow(10,6)) + " milliseconds");
 
 
     }
@@ -41,34 +40,36 @@ public class SudokuSolverEvolutionTwo {
     }
 
     public static boolean solveSudoku(int[][] sudoku) {
-        // using bitmasking to make the code more efficient
-        int[] rowUsed = new int[9];
-        int[] colUsed = new int[9];
-        int[] boxUsed = new int[9];
+        // the below 2d boolean array tracks if a number exists in a particular row
+        boolean[][] numInRow = new boolean[9][10];
+        // the below 2d boolean array tracks if a number exists in a particular column
+        boolean[][] numInColumn = new boolean[9][10];
+        // the below 2d boolean array tracks if a number exists in a particular 3*3 box
+        boolean[][] numInGrid = new boolean[9][10];
+
+        int num;
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                int num = sudoku[i][j];
+                num = sudoku[i][j];
                 if (num != 0) {
-                    // if the number is present in the row, we set the corresponding bit to 1. For example, if the number is 3, we set the 3rd bit to 1.
-                    rowUsed[i] = rowUsed[i] | (1 << num);
-                    // if the number is present in the column, we set the corresponding bit to 1.
-                    colUsed[j] = colUsed[j] | (1 << num);
+                    numInRow[i][num] = true;
+                    numInColumn[j][num] = true;
                     // There are a total of nine 3*3 boxes in the entire sudoku grid. The boxes are numbered from 0 to 8.
                     // The below formula calculates the number of the 3*3 box based on the row and col of a cell
                     int gridNum = ((i / 3) * 3) + (j / 3);
-                    // if the number is present in the grid/box, we set the corresponding bit to 1.
-                    boxUsed[gridNum] = boxUsed[gridNum] | (1 << num);
+                    numInGrid[gridNum][num] = true;
                 }
             }
         }
 
-        return backtrack(sudoku, 0, 0, rowUsed, colUsed, boxUsed);
+        return backtrack(sudoku, 0, 0, numInRow, numInColumn, numInGrid);
 
     }
 
     public static boolean backtrack(int[][] sudokuGrid, int row, int col,
-                                    int[] numInRow, int[] numInColumn, int[] numInGrid) {
+                                    boolean[][] numInRow, boolean[][] numInColumn,
+                                    boolean[][] numInGrid) {
         // The base case. Rows are numbered from 0 to 8. So a row 9 means the puzzle has been solved
         if (row == 9) return true;
 
@@ -88,12 +89,11 @@ public class SudokuSolverEvolutionTwo {
         // Trying the possibilities from 1 to 9.
         for (int num = 1; num <= 9; num++) {
             // check if the number is not present in the row, column and the 3*3 box and then try it
-            // we check if at the index corresponding to num, the bit is 0 or not. If it's 0, it means the number is not present in that row/column/box. If it's 1, it means the number is already present.
-            if ((numInRow[row] & (1 << num)) == 0 && (numInColumn[col] & (1 << num)) == 0 && (numInGrid[box] & (1 << num)) == 0) {
+            if (!numInRow[row][num] && !numInColumn[col][num] && !numInGrid[box][num]) {
                 sudokuGrid[row][col] = num;
-                numInRow[row] = numInRow[row] | (1 << num);
-                numInColumn[col] = numInColumn[col] | (1 << num);
-                numInGrid[box] = numInGrid[box] | (1 << num);
+                numInRow[row][num] = true;
+                numInColumn[col][num] = true;
+                numInGrid[box][num] = true;
 
                 // if a successful try proceed further
                 if (backtrack(sudokuGrid, nextR, nextC, numInRow, numInColumn, numInGrid)) {
@@ -102,10 +102,9 @@ public class SudokuSolverEvolutionTwo {
 
                 // if an unsuccessful try, undo the changes so that the next possibility can be tried
                 sudokuGrid[row][col] = 0;
-                // we undo the changes by setting the corresponding bit to 0.
-                numInRow[row] = numInRow[row] & ~(1 << num);
-                numInColumn[col] = numInColumn[col] & ~(1 << num);
-                numInGrid[box] = numInGrid[box] & ~(1 << num);
+                numInRow[row][num] = false;
+                numInColumn[col][num] = false;
+                numInGrid[box][num] = false;
             }
         }
         // if none of the possibilities from 1 to 9, then there is no solution to this sudoku puzzle
