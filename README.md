@@ -3,5 +3,7 @@ LongestCommonPrefix - https://leetcode.com/problems/longest-common-prefix/ <br>
 RemoveDuplicatesSortedArray - https://leetcode.com/problems/remove-duplicates-from-sorted-array/ <br>
 RemoveElements - https://leetcode.com/problems/remove-element/ <br>
 TwoSum - https://leetcode.com/problems/two-sum/ <br>
-SearchInsertPosition - https://leetcode.com/problems/search-insert-position/
-PlusOne - https://leetcode.com/problems/plus-one/
+SearchInsertPosition - https://leetcode.com/problems/search-insert-position/ <br>
+PlusOne - https://leetcode.com/problems/plus-one/ <br>
+RomanToInteger - https://leetcode.com/problems/roman-to-integer/ <br>
+LengthOfLongestString - https://leetcode.com/problems/longest-substring-without-repeating-characters <br>
