@@ -1,3 +1,9 @@
+/**
+ * Link: https://leetcode.com/problems/same-tree/
+ *
+ * Time Complexity: O(min(N,M)). N - Number of nodes in tree 1 and M - Number of nodes in tree 2
+ * Space Complexity: O(min(H1, H2)). H1 - Height of tree 1 and H2 - Height of tree 2
+ */
 package com.dsa.graphs.tree;
 
 public class SameTree {
